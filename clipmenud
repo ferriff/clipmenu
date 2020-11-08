@@ -215,12 +215,15 @@ while true; do
     done
 
     if (( CM_SYNC_PRIMARY_TO_CLIPBOARD )) && (( updated_sel[primary] )); then
+        debug "Sync new primary entry \"$first_line\" to clipboard"
         _xsel -o --primary | _xsel -i --clipboard
+        last_data_sel["clipboard"]=${last_data_sel["primary"]}
     fi
 
     if (( CM_SYNC_CLIPBOARD_TO_PRIMARY )) && (( updated_sel[clipboard] )); then
         debug "Sync new clipboard entry \"$first_line\" to primary"
         _xsel -o --clipboard | _xsel -i --primary
+        last_data_sel["primary"]=${last_data_sel["clipboard"]}
     fi
 
     # The cache file may not exist if this is the first run and data is skipped
